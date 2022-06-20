@@ -1,16 +1,63 @@
+@font-face {
+  font-family: 'Press Start 2P';
+  font-style: normal;
+  font-weight: 400;
+  src: url(https://fonts.gstatic.com/s/pressstart2p/v14/e3t4euO8T-267oIAQAu6jDQyK3nVivM.woff2)
+    format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD;
+}
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
+  font-family: 'Press Start 2P';
+  font-size: 90%;
 }
 
 * {
   box-sizing: border-box;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+header,
+main {
+  width: 950px;
+  max-width: 95%;
+  margin: auto;
+}
+
+header {
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+main {
+  margin-bottom: 40px;
+}
+
+.id {
+  font-size: 13px !important;
+}
+
+.content {
+  margin: 1.5rem auto !important;
+}
+
+.show-raw-button {
+  margin-top: 22px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.raw {
+  padding: 22px;
+}
+
+.is-icon,
+.is-icon > * {
+  width: auto !important;
 }
