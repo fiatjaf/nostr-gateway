@@ -57,6 +57,10 @@ main {
   padding: 22px;
 }
 
+.nes-field {
+  margin: 10px 0;
+}
+
 .is-icon,
 .is-icon > * {
   width: auto !important;
