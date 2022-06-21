@@ -35,6 +35,12 @@ header {
   margin-top: 40px;
   margin-bottom: 20px;
 }
+header a,
+header a:hover {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 main {
   margin-bottom: 40px;
 }

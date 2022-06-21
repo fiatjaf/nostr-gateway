@@ -1,15 +1,19 @@
+import {useRouter} from 'next/router'
+
 export default function Home() {
+  const router = useRouter()
+
   return (
     <div className="nes-container">
       <p>
-        The Nostr gateway is an effort to Nostr data from relays around the
+        The Nostr gateway is an effort to pull Nostr data from relays around the
         nostrsphere into HTML pages for the consumption of the unnostrinitiated.
       </p>
 
       <form
         onSubmit={e => {
           e.preventDefault()
-          location.href = '/' + e.target.input
+          router.push(`/${e.target.input.value}`)
         }}
       >
         <div className="nes-field">
@@ -21,7 +25,7 @@ export default function Home() {
           style={{display: 'flex', 'justify-content': 'flex-end'}}
         >
           <button
-            type="button"
+            type="submit"
             className="nes-btn is-primary"
             style={{
               'padding-left': '28px',
