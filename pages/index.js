@@ -17,20 +17,22 @@ export default function Home() {
         }}
       >
         <div className="nes-field">
-          <label htmlFor="input">Paste a Nostr Event Key:</label>
+          <label htmlFor="input">
+            Paste a Nostr event key or public key in the npub... format:
+          </label>
           <input name="input" id="input" className="nes-input" />
         </div>
         <div
           className="nes-field"
-          style={{display: 'flex', 'justify-content': 'flex-end'}}
+          style={{display: 'flex', justifyContent: 'flex-end'}}
         >
           <button
             type="submit"
             className="nes-btn is-primary"
             style={{
-              'padding-left': '28px',
-              'padding-right': '28px',
-              'font-size': '130%'
+              paddingLeft: '28px',
+              paddingRight: '28px',
+              fontSize: '130%'
             }}
           >
             Go

@@ -10,7 +10,7 @@ function MyApp({Component, pageProps}) {
       <Head>
         <title>Nostr Gateway</title>
       </Head>
-      <header style={{display: 'flex', 'align-items': 'center'}}>
+      <header style={{display: 'flex', alignItems: 'center'}}>
         <Link href="/" passHref>
           <a>
             <Image
@@ -18,7 +18,7 @@ function MyApp({Component, pageProps}) {
               src="/logo.jpg"
               height={40}
               width={40}
-              style={{'image-rendering': 'pixelated'}}
+              style={{imageRendering: 'pixelated'}}
             />
           </a>
         </Link>

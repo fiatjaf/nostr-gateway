@@ -17,12 +17,12 @@ export default function Content({event}) {
                     style={{
                       width: '96px',
                       height: '96px',
-                      'image-rendering': 'pixelated'
+                      imageRendering: 'pixelated'
                     }}
                   />
                 ) : null}
               </div>
-              <div style={{'margin-left': '28px'}}>
+              <div style={{marginLeft: '28px'}}>
                 <h2>{metadata.name}</h2>
                 <p>{metadata.about}</p>
                 {metadata.nip05 ? (

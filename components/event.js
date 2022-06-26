@@ -10,7 +10,7 @@ export default function Event({id, event}) {
 
   if (!event)
     return (
-      <div className="rpgui-container framed">
+      <div className="nes-container">
         <p>Event {id} wasn&apos;t found.</p>
       </div>
     )
