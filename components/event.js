@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import {useState} from 'react'
 
 import {kindNames} from '../utils/nostr'
 import Content from './content'

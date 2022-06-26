@@ -18,7 +18,7 @@ export default function Home() {
       >
         <div className="nes-field">
           <label htmlFor="input">
-            Paste a Nostr event key or public key in the npub... format:
+            Paste a Nostr event key or a public key in the npub... format:
           </label>
           <input name="input" id="input" className="nes-input" />
         </div>
