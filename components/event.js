@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 
 import {kindNames} from '../utils/nostr'
 import Content from './content'
@@ -8,6 +8,7 @@ import {hexToNpub} from '../utils/nostr'
 export default function Event({id, event}) {
   const [showingRaw, showRaw] = useState(false)
   const [showingHex, showHex] = useState(false)
+  const [signatureOk, setSignatureOk] = useState(null)
   const sid = id.slice(0, 4)
 
   if (!event)
@@ -68,13 +69,34 @@ export default function Event({id, event}) {
           <Content event={event} />
         </div>
         <div className="nes-field is-inline">
-          <label htmlFor={`sig-${sid}`}>signature</label>
+          <label htmlFor={`sig-${sid}`} style={{flexGrow: 2}}>
+            signature
+          </label>
           <input
             readOnly
             id={`sig-${sid}`}
             value={event.sig}
             className="nes-input nes-text is-disabled"
           />
+          <button
+            type="button"
+            className={`nes-btn ${
+              signatureOk === null
+                ? ''
+                : signatureOk
+                ? 'is-success'
+                : 'is-error'
+            }`}
+            style={{marginLeft: '1rem'}}
+            onClick={ev => {
+              ev.preventDefault()
+              import('nostr-tools').then(({verifySignature}) => {
+                setSignatureOk(verifySignature(event))
+              })
+            }}
+          >
+            {signatureOk === null ? 'check' : signatureOk ? 'valid' : 'invalid'}
+          </button>
         </div>
 
         <div className="show-raw-button">
