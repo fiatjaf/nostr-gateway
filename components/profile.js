@@ -50,7 +50,7 @@ export default function Profile({pubkey}) {
 
   return (
     <>
-      <h1>Events from {pubkey}</h1>
+      <h1>Events from {hexToNpub(pubkey)}</h1>
 
       {events.length === 0 ? (
         <div className="nes-container">

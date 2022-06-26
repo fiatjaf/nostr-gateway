@@ -3,6 +3,7 @@ import {useState} from 'react'
 import {kindNames} from '../utils/nostr'
 import Content from './content'
 import Tags from './tags'
+import {hexToNpub} from '../utils/nostr'
 
 export default function Event({id, event}) {
   const [showingRaw, showRaw] = useState(false)
@@ -25,7 +26,7 @@ export default function Event({id, event}) {
           <input
             readOnly
             id={`pubkey-${sid}`}
-            value={event.pubkey}
+            value={hexToNpub(event.pubkey)}
             className="nes-input nes-text is-primary"
           />
         </div>
