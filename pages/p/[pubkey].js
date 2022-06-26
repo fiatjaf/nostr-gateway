@@ -11,6 +11,8 @@ export default function ProfilePage() {
     pubkey = npubToHex(pubkey)
   } catch (_) {}
 
+  if (pubkey === undefined) return null
+
   return (
     <>
       <Head>
