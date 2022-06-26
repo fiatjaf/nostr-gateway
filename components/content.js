@@ -15,14 +15,14 @@ export default function Content({event}) {
                     alt="metadata picture"
                     className="nes-avatar"
                     style={{
-                      width: '96px',
-                      height: '96px',
+                      width: '12rem',
+                      height: '12rem',
                       imageRendering: 'pixelated'
                     }}
                   />
                 ) : null}
               </div>
-              <div style={{marginLeft: '28px'}}>
+              <div style={{marginLeft: '2rem'}}>
                 <h2>{metadata.name}</h2>
                 <p>{metadata.about}</p>
                 {metadata.nip05 ? (
@@ -89,7 +89,7 @@ export default function Content({event}) {
           }
 
           return (
-            <li style={{margin: '12px 0'}} key={i}>
+            <li style={{margin: '1rem 0'}} key={i}>
               {text}
             </li>
           )

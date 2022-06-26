@@ -31,7 +31,7 @@ export default function Profile({pubkey}) {
   let events = Object.values(eventsById)
   events.sort((a, b) => {
     if (a.kind === b.kind) {
-      return a.createdAt - b.createdAt
+      return a.created_at - b.created_at
     }
     if (a.kind === 0) return -1
     if (b.kind === 0) return 1
@@ -54,7 +54,7 @@ export default function Profile({pubkey}) {
 
       {events.length === 0 ? (
         <div className="nes-container">
-          <p>No sign of {pubkey} found.</p>
+          <p>No sign of {pubkey} found yet.</p>
         </div>
       ) : (
         <>

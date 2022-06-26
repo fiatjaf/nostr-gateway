@@ -7,6 +7,7 @@ import {hexToNpub} from '../utils/nostr'
 
 export default function Event({id, event}) {
   const [showingRaw, showRaw] = useState(false)
+  const [showingHex, showHex] = useState(false)
   const sid = id.slice(0, 4)
 
   if (!event)
@@ -26,13 +27,24 @@ export default function Event({id, event}) {
           <input
             readOnly
             id={`pubkey-${sid}`}
-            value={hexToNpub(event.pubkey)}
+            value={showingHex ? event.pubkey : hexToNpub(event.pubkey)}
             className="nes-input nes-text is-primary"
           />
+          <button
+            type="button"
+            className="nes-btn is-warning"
+            onClick={e => {
+              e.preventDefault()
+              showHex(!showingHex)
+            }}
+            style={{marginLeft: '1rem'}}
+          >
+            {showingHex ? 'npub' : 'hex'}
+          </button>
         </div>
         <div className="nes-field is-inline">
           <label htmlFor={`kind-${sid}`}>kind</label>
-          <div style={{margin: '0 20px'}}>{event.kind}</div>
+          <div style={{margin: '0 1rem'}}>{event.kind}</div>
           <input
             readOnly
             id={`kind-${sid}`}
@@ -40,10 +52,19 @@ export default function Event({id, event}) {
             className="nes-input"
           />
         </div>
-        <div style={{margin: '18px 0'}}>
+        <div className="nes-field is-inline">
+          <label htmlFor={`date-${sid}`}>date</label>
+          <input
+            readOnly
+            id={`date-${sid}`}
+            value={new Date(event.created_at * 1000)}
+            className="nes-input"
+          />
+        </div>
+        <div style={{margin: '1rem 0'}}>
           <Tags event={event} />
         </div>
-        <div style={{margin: '18px 0'}}>
+        <div style={{margin: '1rem 0'}}>
           <Content event={event} />
         </div>
         <div className="nes-field is-inline">

@@ -24,7 +24,7 @@ function MyApp({Component, pageProps}) {
         </Link>
         <Link href="/" passHref>
           <a>
-            <h1 style={{margin: '0 20px 0'}}>Nostr Gateway</h1>
+            <h1 style={{margin: '0 2rem 0'}}>Nostr Gateway</h1>
           </a>
         </Link>
       </header>

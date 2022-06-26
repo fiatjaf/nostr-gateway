@@ -30,8 +30,8 @@ export default function Home() {
             type="submit"
             className="nes-btn is-primary"
             style={{
-              paddingLeft: '28px',
-              paddingRight: '28px',
+              paddingLeft: '1.5rem',
+              paddingRight: '1.5rem',
               fontSize: '130%'
             }}
           >
