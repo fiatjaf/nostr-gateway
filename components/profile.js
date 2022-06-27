@@ -18,7 +18,10 @@ export default function Profile({pubkey}) {
           {authors: [pubkey], kinds: [1, 2, 3, 4, 5, 17, 18, 30], limit: 15}
         ],
         cb: event => {
-          setEvents(eventsById => ({...eventsById, [event.id]: event}))
+          setEvents(eventsById => {
+            if (Object.keys(eventsById).length > 20) sub.current.unsub()
+            return {...eventsById, [event.id]: event}
+          })
         }
       })
 
