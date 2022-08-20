@@ -13,6 +13,7 @@ export default function Profile({pubkey}) {
       relays.forEach(r => pool.addRelay(r))
 
       sub.current = pool.sub({
+        skipVerification: true,
         filter: [
           {authors: [pubkey], kinds: [0], limit: 15},
           {authors: [pubkey], kinds: [1, 2, 3, 4, 5, 17, 18, 30], limit: 15}
