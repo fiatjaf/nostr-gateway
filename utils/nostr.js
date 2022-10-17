@@ -19,7 +19,8 @@ export const relays = [
   'wss://nostr-relay.wlvs.space',
   'wss://nostr-relay.untethr.me',
   'wss://expensive-relay.fiatjaf.com',
-  'wss://nostr-relay.freeberty.net'
+  'wss://nostr-relay.freeberty.net',
+  'wss://relay.minds.com/nostr/v1/ws'
 ]
 
 export function nip05toURL(identifier) {
