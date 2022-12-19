@@ -1,0 +1,26 @@
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+jobs:
+
+  build:
+    name: Build, push, and deploy
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout master
+      uses: actions/checkout@v2
+
+    - name: Build container image
+      run: docker build --tag ghcr.io/${{ github.actor }}/nostr-gateway:$(echo $GITHUB_SHA | head -c7) .
+
+    - name: Docker login
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: docker login -u ${{ github.actor }} -p $GITHUB_TOKEN ghcr.io
+      
+    - name: Push image to GitHub
+      run: docker push ghcr.io/${{ github.actor }}/nostr-gateway:$(echo $GITHUB_SHA | head -c7)
