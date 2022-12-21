@@ -1,3 +1,5 @@
+import Link from 'next/link'
+
 export default function Tags({event}) {
   let tags = event.tags
   if (event.kind === 3) {
@@ -27,7 +29,10 @@ export default function Tags({event}) {
                     c === tag.length - 1 && c + 1 < maxCols ? maxCols - c : 1
                   }
                 >
-                  {item}
+                  {c === 1 && (tag[0] === 'p' || tag[0] === 'e')
+                    ? <Link passHref href={'/' + tag[0] + '/' + item}>{item}</Link>
+                    : item
+                  }
                 </td>
               ))}
             </tr>
