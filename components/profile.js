@@ -8,6 +8,8 @@ export default function Profile({pubkey}) {
   const sub = useRef(null)
 
   useEffect(() => {
+    setEvents({})
+    if (sub.current) sub.current.unsub()
     import('nostr-tools').then(({relayPool}) => {
       const pool = relayPool()
       relays.forEach(r => pool.addRelay(r))
