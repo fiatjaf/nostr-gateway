@@ -40,6 +40,36 @@ export default function Home() {
         </div>
       </form>
 
+      <form
+        onSubmit={e => {
+          e.preventDefault()
+          router.push(`/p/${e.target.input.value}`)
+        }}
+      >
+        <div className="nes-field">
+          <label htmlFor="input">
+            Or, paste a hex encoded public key here:
+          </label>
+          <input name="input" id="input" className="nes-input" />
+        </div>
+        <div
+          className="nes-field"
+          style={{display: 'flex', justifyContent: 'flex-end'}}
+        >
+          <button
+            type="submit"
+            className="nes-btn is-primary"
+            style={{
+              paddingLeft: '1.5rem',
+              paddingRight: '1.5rem',
+              fontSize: '130%'
+            }}
+          >
+            Go
+          </button>
+        </div>
+      </form>
+
       <h2>What is Nostr?</h2>
       <p>
         A decentralized network based on cryptographic keypairs and that is not
