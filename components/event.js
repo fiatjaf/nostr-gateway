@@ -112,10 +112,13 @@ export default function Event({id, event}) {
             &lt;&gt;
           </button>
         </div>
+        {showingRaw && (
+          <div className="nes-container">
+            <pre className="raw">{JSON.stringify(event, null, 2)}</pre>
+          </div>
+        )}
       </div>
-      {showingRaw && (
-        <pre className="raw">{JSON.stringify(event, null, 2)}</pre>
-      )}
+      
     </>
   )
 }
