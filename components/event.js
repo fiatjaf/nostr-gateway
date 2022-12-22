@@ -18,7 +18,7 @@ export default function Event({id, event}) {
 
       let additionalRelays = prompt('Is there an additional relay you want to broadcast to? You may enter a comma separated list here.')
 
-      if (additionalRelays.indexOf('wss://') === 0) {
+      if (additionalRelays && additionalRelays.indexOf('wss://') === 0) {
         additionalRelays = additionalRelays.split(',')
         additionalRelays.forEach(r => pool.addRelay(r.trim(), {read: true, write: true}))
       }
