@@ -1,6 +1,10 @@
+import {useState} from 'react'
+
 import {nip05toURL} from '../utils/nostr'
 
 export default function Content({event}) {
+   const [showingLongContent, showLongContent] = useState(false)
+
   switch (event.kind) {
     case 0: {
       try {
@@ -95,7 +99,23 @@ export default function Content({event}) {
           )
         })
 
-      return <ul className="nes-list is-circle">{profiles}</ul>
+      return (
+        <>
+          <button
+            type="button"
+            className="nes-btn is-primary"
+            onClick={e => {
+              e.preventDefault()
+              showLongContent(!showingLongContent)
+            }}
+          >
+            {showingLongContent ? "Hide" : "Show"} Content
+          </button>
+          {showingLongContent && (
+            <ul className="nes-list is-circle">{profiles}</ul>
+          )}
+        </>
+      )
     }
   }
 
