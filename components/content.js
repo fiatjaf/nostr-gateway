@@ -109,7 +109,7 @@ export default function Content({event}) {
               showLongContent(!showingLongContent)
             }}
           >
-            {showingLongContent ? "Hide" : "Show"} Content
+            {showingLongContent ? 'Hide' : 'Show'} Content
           </button>
           {showingLongContent && (
             <ul className="nes-list is-circle">{profiles}</ul>
