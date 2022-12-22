@@ -15,7 +15,7 @@ export default function Event({id, event}) {
     return (
       <div className="nes-container">
         <p>Event {id} wasn&apos;t found.</p>
-        <p>Maybe you pasted in a hex pubkey? <a href={"/p/" + id}>Click here</a> to check...</p>
+        <p>Maybe you pasted in a hex pubkey? <a href={'/p/' + id}>Click here</a> to check...</p>
       </div>
     )
 
@@ -118,7 +118,6 @@ export default function Event({id, event}) {
           </div>
         )}
       </div>
-      
     </>
   )
 }
