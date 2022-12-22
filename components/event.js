@@ -16,14 +16,14 @@ export default function Event({id, event}) {
       const pool = relayPool()
       relays.forEach(r => pool.addRelay(r, {read: true, write: true}))
 
-      let additionalRelays = prompt("Is there an additional relay you want to broadcast to? You may enter a comma separated list here.")
+      let additionalRelays = prompt('Is there an additional relay you want to broadcast to? You may enter a comma separated list here.')
 
-      if(additionalRelays.indexOf("wss://") === 0) {
+      if (additionalRelays.indexOf('wss://') === 0) {
         additionalRelays = additionalRelays.split(',')
         additionalRelays.forEach(r => pool.addRelay(r.trim(), {read: true, write: true}))
       }
 
-      const ev = await pool.publish(event, (status, url) => {
+      await pool.publish(event, (status, url) => {
         if (status === 0) {
           console.log(`publish request sent to ${url}`)
         }
