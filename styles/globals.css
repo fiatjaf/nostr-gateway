@@ -71,3 +71,7 @@ main {
 .is-icon > * {
   width: auto !important;
 }
+
+.hidden {
+  display: none;
+}
