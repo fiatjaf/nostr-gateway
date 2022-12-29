@@ -48,7 +48,7 @@ export default function Home() {
       >
         <div className="nes-field">
           <label htmlFor="input">
-            Or, paste a hex encoded public key here:
+            Or, paste a public key here (hex or nip-19):
           </label>
           <input name="input" id="input" className="nes-input" />
         </div>
