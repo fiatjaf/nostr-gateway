@@ -16,16 +16,20 @@ export const kindNames = {
 }
 
 export const relays = [
-  'wss://nostr-pub.wellorder.net',
-  'wss://nostr-verified.wellorder.net',
-  'wss://nostr.rocks',
-  'wss://relay.damus.io',
-  'wss://nostr.drss.io',
-  'wss://nostr.bitcoiner.social',
-  'wss://nostr-relay.wlvs.space',
   'wss://nostr-relay.untethr.me',
-  'wss://expensive-relay.fiatjaf.com',
-  'wss://nostr-relay.freeberty.net',
+  'wss://nostr-pub.wellorder.net',
+  'wss://nostr.zebedee.social',
+  'wss://relay.damus.io',
+  'wss://nostr.bitcoiner.social',
+  'wss://nostr.fmt.wiz.biz',
+  'wss://nostr-relay.wlvs.space',
+  'wss://nostr.v0l.io',
+  'wss://nostr.mom',
+  'wss://relay.snort.social',
+  'wss://nostr.fly.dev',
+  'wss://nostr.orangepill.dev',
+  'wss://relay.realsearch.cc',
+  'wss://relay.nostrgraph.net',
   'wss://relay.minds.com/nostr/v1/ws'
 ]
 
