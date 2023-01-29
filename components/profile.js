@@ -29,6 +29,8 @@ export default function Profile({pubkey, relays}) {
         )
 
         sub.on('event', event => {
+          ids.current[event.id] = null
+
           if (event.kind === 0 || event.kind === 2) {
             setMetadataEvents(events =>
               utils.insertEventIntoDescendingList(events, event)
