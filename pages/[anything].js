@@ -1,11 +1,32 @@
-import {npubToHex} from '../utils/nostr'
+import {nip19} from 'nostr-tools'
 
 export async function getServerSideProps(context) {
   let destination
+  let relays = []
+
   try {
-    let pubkey = npubToHex(context.params.anything)
-    console.log(pubkey)
-    destination = `/p/${pubkey}`
+    let {type, data} = nip19.decode(context.params.anything)
+
+    switch (type) {
+      case 'nsec':
+        break
+      case 'npub':
+        destination = `/p/${data}`
+        break
+      case 'nprofile':
+        destination = `/p/${data.pubkey}`
+        relays = data.relays
+        break
+      case 'note':
+        destination = `/e/${data}`
+        break
+      case 'nevent':
+        destination = `/e/${data.id}`
+        relays = data.relays
+        break
+      case 'nrelay':
+        break
+    }
   } catch (_) {
     if (context.params.anything.toLowerCase().match(/[a-f0-9]{64}/)) {
       let id = context.params.anything
@@ -13,6 +34,8 @@ export async function getServerSideProps(context) {
     }
   }
   if (destination) {
+    destination += '?relays=' + relays.join(',')
+
     return {
       redirect: {destination, permanent: false}
     }

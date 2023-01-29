@@ -1,9 +1,9 @@
 import {useState} from 'react'
+import {nip19} from 'nostr-tools'
 
-import {kindNames} from '../utils/nostr'
+import {kindNames, fallbackRelays} from '../utils/nostr'
 import Content from './content'
 import Tags from './tags'
-import {hexToNpub, relays} from '../utils/nostr'
 
 export default function Event({id, event}) {
   const [showingRaw, showRaw] = useState(false)
@@ -11,34 +11,14 @@ export default function Event({id, event}) {
   const [signatureOk, setSignatureOk] = useState(null)
   const sid = id.slice(0, 4)
 
-  const rePublishEvent = async (event) => {
-    import('nostr-tools').then(async ({relayPool}) => {
-      const pool = relayPool()
-      relays.forEach(r => pool.addRelay(r, {read: true, write: true}))
-
-      let additionalRelays = prompt('Is there an additional relay you want to broadcast to? You may enter a comma separated list here.')
-
-      if (additionalRelays && additionalRelays.indexOf('wss://') === 0) {
-        additionalRelays = additionalRelays.split(',')
-        additionalRelays.forEach(r => pool.addRelay(r.trim(), {read: true, write: true}))
-      }
-
-      await pool.publish(event, (status, url) => {
-        if (status === 0) {
-          console.log(`publish request sent to ${url}`)
-        }
-        if (status === 1) {
-          console.log(`event published by ${url}`)
-        }
-      })
-    })
-  }
-
   if (!event)
     return (
       <div className="nes-container">
         <p>Event {id} wasn&apos;t found.</p>
-        <p>Maybe you pasted in a hex pubkey? <a href={'/p/' + id}>Click here</a> to check...</p>
+        <p>
+          Maybe you pasted in a hex pubkey? <a href={'/p/' + id}>Click here</a>{' '}
+          to check...
+        </p>
       </div>
     )
 
@@ -52,7 +32,7 @@ export default function Event({id, event}) {
           <input
             readOnly
             id={`pubkey-${sid}`}
-            value={showingHex ? event.pubkey : hexToNpub(event.pubkey)}
+            value={showingHex ? event.pubkey : nip19.npubEncode(event.pubkey)}
             className="nes-input nes-text is-primary"
           />
           <button
@@ -153,4 +133,14 @@ export default function Event({id, event}) {
       </div>
     </>
   )
+
+  async function rePublishEvent(event) {
+    import('nostr-tools').then(async ({relayInit}) => {
+      fallbackRelays.forEach(async url => {
+        const relay = relayInit(url)
+        await relay.connect()
+        relay.publish(event)
+      })
+    })
+  }
 }

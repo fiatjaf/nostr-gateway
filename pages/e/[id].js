@@ -5,7 +5,8 @@ import Event from '../../components/event'
 
 export async function getServerSideProps(context) {
   const id = context.params.id
-  const event = await getEvent(id)
+  const relays = context.query.relays?.split(',') || []
+  const event = await getEvent(id, relays)
 
   if (event) {
     // event exists, cache forever

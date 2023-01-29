@@ -18,37 +18,11 @@ export default function Home() {
       >
         <div className="nes-field">
           <label htmlFor="input">
-            Paste a Nostr event key or a public key in the npub... format:
-          </label>
-          <input name="input" id="input" className="nes-input" />
-        </div>
-        <div
-          className="nes-field"
-          style={{display: 'flex', justifyContent: 'flex-end'}}
-        >
-          <button
-            type="submit"
-            className="nes-btn is-primary"
-            style={{
-              paddingLeft: '1.5rem',
-              paddingRight: '1.5rem',
-              fontSize: '130%'
-            }}
-          >
-            Go
-          </button>
-        </div>
-      </form>
-
-      <form
-        onSubmit={e => {
-          e.preventDefault()
-          router.push(`/p/${e.target.input.value}`)
-        }}
-      >
-        <div className="nes-field">
-          <label htmlFor="input">
-            Or, paste a public key here (hex or nip-19):
+            Paste a Nostr event key or a public key here in{' '}
+            <a href="https://github.com/nostr-protocol/nips/blob/master/19.md">
+              NIP-19
+            </a>{' '}
+            format:
           </label>
           <input name="input" id="input" className="nes-input" />
         </div>
@@ -81,7 +55,8 @@ export default function Home() {
         <a href="https://github.com/nostr-protocol/nostr">
           https://github.com/nostr-protocol/nostr
         </a>
-        .
+        or see a giant list of all things, good and bad, made with Nostr, at{' '}
+        <a href="https://nostr.net">nostr.net</a>.
       </p>
       <p>
         You can also reach us at{' '}

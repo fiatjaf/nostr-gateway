@@ -1,62 +1,51 @@
 import {useState, useEffect, useRef} from 'react'
+import {nip19, utils} from 'nostr-tools'
 
 import Event from './event'
-import {relays, hexToNpub} from '../utils/nostr'
+import {fallbackRelays} from '../utils/nostr'
 
-export default function Profile({pubkey}) {
-  const [eventsById, setEvents] = useState({})
-  const sub = useRef(null)
-
+export default function Profile({pubkey, relays}) {
+  const ids = useRef({})
+  const [events, setEvents] = useState([])
+  const [metadataEvents, setMetadataEvents] = useState([])
   useEffect(() => {
-    setEvents({})
-    if (sub.current) sub.current.unsub()
-    import('nostr-tools').then(({relayPool}) => {
-      const pool = relayPool()
-      relays.forEach(r => pool.addRelay(r))
+    ids.current = {}
+    setEvents([])
 
-      sub.current = pool.sub({
-        skipVerification: true,
-        filter: [
-          {authors: [pubkey], kinds: [0], limit: 15},
-          {authors: [pubkey], kinds: [1, 2, 3, 4, 5, 17, 18, 30], limit: 15}
-        ],
-        cb: event => {
-          setEvents(eventsById => {
-            if (Object.keys(eventsById).length > 20) sub.current.unsub()
-            return {...eventsById, [event.id]: event}
-          })
-        }
+    import('nostr-tools').then(({relayInit}) => {
+      const relays = Array.from(new Set([...fallbackRelays, ...(relays || [])]))
+
+      relays.forEach(async url => {
+        const relay = relayInit(url, id => id in ids.current)
+
+        await relay.connect()
+
+        let sub = relay.sub(
+          [
+            {authors: [pubkey], kinds: [0], limit: 15},
+            {authors: [pubkey], kinds: [1, 2, 3, 4, 5, 17, 18, 30], limit: 15}
+          ],
+          {skipVerification: true}
+        )
+
+        sub.on('event', event => {
+          if (event.kind === 0 || event.kind === 2) {
+            setMetadataEvents(events =>
+              utils.insertEventIntoDescendingList(events, event)
+            )
+          } else {
+            setEvents(events =>
+              utils.insertEventIntoDescendingList(events, event)
+            )
+          }
+        })
       })
-
-      return () => {
-        if (sub.current) sub.current.unsub()
-      }
     })
   }, [pubkey])
 
-  let events = Object.values(eventsById)
-  events.sort((a, b) => {
-    if (a.kind === b.kind) {
-      return a.created_at - b.created_at
-    }
-    if (a.kind === 0) return -1
-    if (b.kind === 0) return 1
-    if (a.kind === 3) return -1
-    if (b.kind === 3) return 1
-    if (a.kind === 2) return -1
-    if (b.kind === 2) return 1
-    if (a.kind === 1) return -1
-    if (b.kind === 1) return 1
-    if (a.kind === 4) return 1
-    if (b.kind === 4) return -1
-    if (a.kind > b.kind) return -1
-    if (a.kind < b.kind) return 1
-    return 0
-  })
-
   return (
     <>
-      <h1>Events from {hexToNpub(pubkey)}</h1>
+      <h1>Events from {nip19.npubEncode(pubkey)}</h1>
 
       {events.length === 0 ? (
         <div className="nes-container">
@@ -64,16 +53,18 @@ export default function Profile({pubkey}) {
         </div>
       ) : (
         <>
-          {events.map(event => (
-            <div
-              key={event.id}
-              style={{marginBottom: '1rem', margin: '2.5rem'}}
-            >
-              <Event id={event.id} event={event} />
-            </div>
-          ))}
+          {metadataEvents.map(renderEvent)}
+          {events.map(renderEvent)}
         </>
       )}
     </>
   )
+
+  function renderEvent(event) {
+    return (
+      <div key={event.id} style={{marginBottom: '1rem', margin: '2.5rem'}}>
+        <Event id={event.id} event={event} />
+      </div>
+    )
+  }
 }
