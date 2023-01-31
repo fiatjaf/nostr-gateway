@@ -34,7 +34,7 @@ export async function getServerSideProps(context) {
     }
   }
   if (destination) {
-    destination += '?relays=' + relays.join(',')
+    if (relays.length > 0) destination += '?relays=' + relays.join(',')
 
     return {
       redirect: {destination, permanent: false}
