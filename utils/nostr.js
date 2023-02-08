@@ -19,7 +19,7 @@ export const fallbackRelays = [
   'wss://nostr-relay.untethr.me',
   'wss://nostr-pub.wellorder.net',
   'wss://nostr.zebedee.social',
-  'wss://nostr.bitcoiner.social',
+  'wss://offchain.pub',
   'wss://nostr.fmt.wiz.biz',
   'wss://nostr-relay.wlvs.space',
   'wss://relay.snort.social',
