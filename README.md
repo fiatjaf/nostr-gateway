@@ -1,5 +1,9 @@
 # Nostr Gateway
 
+<img src="https://user-images.githubusercontent.com/120996278/222497757-a8c4c1e7-4ff2-40ca-85f5-e788121f1629.png" width="300" alt="Nostr Gateway">
+
+
+
 The Nostr Gateway is an effort to pull Nostr data from relays around the nostrsphere into HTML pages for the consumption of the unnostrinitiated. It is built using Node.js and Docker, and is designed to be easy to deploy and run on any machine.
 
 ## Requirements
