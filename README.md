@@ -17,21 +17,21 @@ To run the Nostr Gateway, you will need:
 
 To install the Nostr Gateway, follow these steps:
 
-- 1. Clone the repository to your local machine using the git command line tool or a Git desktop client:
+- #1 Clone the repository to your local machine using the git command line tool or a Git desktop client:
    `git clone https://github.com/fiatjaf/nostr-gateway.git`
 
-- 2. Navigate to the repository's root directory:
+- #2 Navigate to the repository's root directory:
    `cd nostr-gateway`
 
-- 3. Edit relays in utils/nostr.js (optional)
+- #3 Edit relays in utils/nostr.js (optional)
 
-- 4. Build the Docker image for the Nostr Gateway:
+- #4 Build the Docker image for the Nostr Gateway:
    `sudo docker build -t nostr-gateway .`
 
-- 5. Run the Docker container for the Nostr Gateway:
+- #5 Run the Docker container for the Nostr Gateway:
    `sudo docker run -p 3000:3000 -d nostr-gateway`
 
-- 6. Verify that the Nostr Gateway is running by visiting http://localhost:3000 in your web browser.
+- #6 Verify that the Nostr Gateway is running by visiting http://localhost:3000 in your web browser.
 
 ## Usage
 
