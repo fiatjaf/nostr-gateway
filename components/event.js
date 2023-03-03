@@ -28,7 +28,7 @@ export default function Event({id, event}) {
         <p className="title id">{id}</p>
 
         <div className="nes-field is-inline">
-          <label htmlFor={`pubkey-${sid}`}>author (pubkey)</label>
+          <label htmlFor={`pubkey-${sid}`}>author</label>
           <input
             readOnly
             id={`pubkey-${sid}`}
@@ -46,6 +46,13 @@ export default function Event({id, event}) {
           >
             {showingHex ? 'npub' : 'hex'}
           </button>
+          <a
+            href={`/p/${event.pubkey}`}
+            className="nes-btn is-primary"
+            style={{marginLeft: '1rem'}}
+          >
+            profile
+          </a>
         </div>
         <div className="nes-field is-inline">
           <label htmlFor={`kind-${sid}`}>kind</label>
