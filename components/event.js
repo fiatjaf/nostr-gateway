@@ -25,7 +25,11 @@ export default function Event({id, event}) {
   return (
     <>
       <div className="nes-container with-title">
-        <p className="title id">{id}</p>
+      <a
+      href={`/e/${id}`}
+      >
+      <p className="title id">{id}</p>
+      </a>
 
         <div className="nes-field is-inline">
           <label htmlFor={`pubkey-${sid}`}>author</label>
