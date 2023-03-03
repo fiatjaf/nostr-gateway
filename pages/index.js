@@ -55,7 +55,7 @@ export default function Home() {
         <a href="https://github.com/nostr-protocol/nostr">
           https://github.com/nostr-protocol/nostr
         </a>
-        or see a giant list of all things, good and bad, made with Nostr, at{' '}
+        &nbsp;or see a giant list of all things, good and bad, made with Nostr, at{' '}
         <a href="https://nostr.net">nostr.net</a>.
       </p>
       <p>
