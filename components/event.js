@@ -58,7 +58,13 @@ return (
         </div>
         <div className="nes-field is-inline">
           <label htmlFor={`kind-${sid}`}>kind</label>
-          <div style={{margin: '0 1rem'}}>{event.kind}</div>
+          <input
+          readOnly
+          id={`kind-${sid}`}
+          value={event.kind}
+          className="nes-input"
+          style={{marginRight: '1rem', readOnly: true, flexGrow: 1}}
+          />
           <input
             readOnly
             id={`kind-${sid}`}
@@ -78,9 +84,11 @@ return (
         <div style={{margin: '1rem 0'}}>
           <Tags event={event} />
         </div>
+
         <div style={{margin: '1rem 0'}}>
           <Content event={event} />
         </div>
+
         <div className="nes-field is-inline">
           <label htmlFor={`sig-${sid}`} style={{flexGrow: 2}}>
             signature
