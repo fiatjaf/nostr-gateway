@@ -84,11 +84,9 @@ return (
         <div style={{margin: '1rem 0'}}>
           <Tags event={event} />
         </div>
-
         <div style={{margin: '1rem 0'}}>
           <Content event={event} />
         </div>
-
         <div className="nes-field is-inline">
           <label htmlFor={`sig-${sid}`} style={{flexGrow: 2}}>
             signature
