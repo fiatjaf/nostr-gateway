@@ -75,3 +75,10 @@ main {
 .hidden {
   display: none;
 }
+
+.nes-field.is-inline>label {
+    flex-basis: initial !important;
+    flex-grow: initial !important;
+    margin-right: 1.5rem;
+    text-align: left !important;
+}
