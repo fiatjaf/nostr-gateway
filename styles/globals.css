@@ -26,7 +26,7 @@ body {
 
 header,
 main {
-  width: 950px;
+  width: 1080px;
   max-width: 95%;
   margin: auto;
 }
@@ -77,8 +77,11 @@ main {
 }
 
 .nes-field.is-inline>label {
+    width: 14% !important;
     flex-basis: initial !important;
     flex-grow: initial !important;
     margin-right: 1.5rem;
     text-align: left !important;
+    text-transform: uppercase left !important;
 }
+
