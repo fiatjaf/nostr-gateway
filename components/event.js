@@ -29,7 +29,6 @@ return (
         <a href={`/e/${id}`}>{id}</a>
       </p>
 
-
         <div className="nes-field is-inline">
           <label htmlFor={`pubkey-${sid}`}>author</label>
           <input
