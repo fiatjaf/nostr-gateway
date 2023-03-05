@@ -35,11 +35,23 @@ export default function Event({id, event}) {
       /***/
     }
   }
+  let siteName = nip19.npubEncode(event.pubkey)
+  let title =
+    event.kind >= 30000 && event.kind < 40000
+      ? `${kindNames[event.kind]}: ${
+          event.tags.find(([t, v]) => t === 't')?.[1] || '~'
+        }`
+      : (event.kind >= 10000 && event.kind < 20000) ||
+        event.kind === 0 ||
+        event.kind === 3
+      ? kindNames[event.kind]
+      : nip19.neventEncode({id: event.id})
 
   return (
     <>
       <Head>
-        <meta property="og:title" content={nip19.npubEncode(event.pubkey)} />
+        <meta property="og:site_name" content={siteName} />
+        <meta property="og:title" content={title} />
         {image && <meta property="og:image" content={image} />}
         {video && <meta property="og:video" content={video} />}
         {(event.kind === 1 || event.kind === 30023) && (
