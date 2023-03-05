@@ -1,4 +1,6 @@
+import Head from 'next/head'
 import {useState} from 'react'
+import TOML from '@iarna/toml'
 import {nip19} from 'nostr-tools'
 
 import {kindNames, fallbackRelays} from '../utils/nostr'
@@ -14,20 +16,42 @@ export default function Event({id, event}) {
   if (!event)
     return (
       <div className="nes-container">
-        <p>Event {id} wasn&apos;t found.</p>
+        <p>Event {id} wasn&apos;t found in any of the default relays.</p>
         <p>
-          Maybe you pasted in a hex pubkey? <a href={'/p/' + id}>Click here</a>{' '}
-          to check...
+          Try using a <code>nevent</code> identifier with relay hints.
         </p>
       </div>
     )
 
-return (
-  <>
-    <div className="nes-container with-title">
-      <p className="title id">
-        <a href={`/e/${id}`}>{id}</a>
-      </p>
+  let imageMatch = event.content.match(/https:\/\/[^ ]*\.(gif|jpe?g|png|webp)/)
+  let image = imageMatch ? imageMatch[0] : null
+  let videoMatch = event.content.match(/https:\/\/[^ ]*\.(mp4|webm)/)
+  let video = videoMatch ? videoMatch[0] : null
+  let metadata = null
+  if (event.kind === 0) {
+    try {
+      metadata = TOML.stringify(JSON.parse(event.content))
+    } catch (err) {
+      /***/
+    }
+  }
+
+  return (
+    <>
+      <Head>
+        <meta property="og:title" content={nip19.npubEncode(event.pubkey)} />
+        {image && <meta property="og:image" content={image} />}
+        {video && <meta property="og:video" content={video} />}
+        {(event.kind === 1 || event.kind === 30023) && (
+          <meta property="og:description" content={event.content} />
+        )}
+        {metadata && <meta property="og:description" content={metadata} />}
+      </Head>
+
+      <div className="nes-container with-title">
+        <p className="title id">
+          <a href={`/e/${id}`}>{id}</a>
+        </p>
 
         <div className="nes-field is-inline">
           <label htmlFor={`pubkey-${sid}`}>author</label>
@@ -59,11 +83,11 @@ return (
         <div className="nes-field is-inline">
           <label htmlFor={`kind-${sid}`}>kind</label>
           <input
-          readOnly
-          id={`kind-${sid}`}
-          value={event.kind}
-          className="nes-input"
-          style={{marginRight: '1rem', readOnly: true, flexGrow: 1}}
+            readOnly
+            id={`kind-${sid}`}
+            value={event.kind}
+            className="nes-input"
+            style={{marginRight: '1rem', readOnly: true, flexGrow: 1}}
           />
           <input
             readOnly
