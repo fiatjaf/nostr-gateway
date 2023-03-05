@@ -1,38 +1,24 @@
-import WebSocket from 'ws'
-
+import {SimplePool} from 'nostr-tools'
 import {fallbackRelays} from './nostr'
 
-export function getEvent(id, relays) {
-  return new Promise(async (resolve, reject) => {
-    const sockets = Array.from(new Set([...relays, ...fallbackRelays])).map(
-      url => {
-        const ws = new WebSocket(url)
+let pool = new SimplePool({getTimeout: 5600})
 
-        ws.onerror = () => {}
-        ws.onopen = () => {
-          ws.send(JSON.stringify(['REQ', '_', {ids: [id]}]))
-        }
-        ws.onmessage = msg => {
-          const data = JSON.parse(msg.data)
-          if (data[0] === 'EVENT' && data.length > 2) {
-            resolve(data[2])
-            end()
-          }
-        }
+export async function getEvent(id, relays) {
+  return pool.get(Array.from(new Set([...(relays || []), ...fallbackRelays])), {
+    ids: [id]
+  })
+}
 
-        setTimeout(() => {
-          end()
-          reject()
-        }, 4000)
+export async function getProfileNotes(pubkey, relays) {
+  return pool.list(
+    Array.from(new Set([...(relays || []), ...fallbackRelays])),
+    [{authors: [pubkey], kinds: [1], limit: 10}]
+  )
+}
 
-        return ws
-      }
-    )
-
-    function end() {
-      sockets.forEach(async ws => {
-        if (ws) ws.close(1000, 'not needed anymore, thanks')
-      })
-    }
-  }).catch(() => null)
+export async function getProfileMetadataEvents(pubkey, relays) {
+  return pool.list(
+    Array.from(new Set([...(relays || []), ...fallbackRelays])),
+    [{authors: [pubkey], kinds: [0, 2, 10002, 30008], limit: 15}]
+  )
 }

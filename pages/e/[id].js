@@ -1,34 +1,45 @@
+import {useEffect, useState} from 'react'
 import Head from 'next/head'
+import {useRouter} from 'next/router'
 
 import {getEvent} from '../../utils/get-event'
 import Event from '../../components/event'
 
-export async function getServerSideProps(context) {
-  const id = context.params.id
-  const relays = context.query.relays?.split(',') || []
-  const event = await getEvent(id, relays)
+export default function EventPage({id}) {
+  const router = useRouter()
+  const [loading, setLoading] = useState(1)
+  const [event, setEvent] = useState(null)
 
-  if (event) {
-    // event exists, cache forever
-    context.res.setHeader('Cache-Control', 'public, s-maxage=31536000')
-  } else {
-    // event doesn't exist, cache for a while
-    context.res.statusCode = 404
-    context.res.setHeader('Cache-Control', 'public, s-maxage=360')
-  }
+  useEffect(() => {
+    getEvent(router.query.id, router.query.relays?.split(',') || []).then(
+      event => {
+        setEvent(event)
+        setLoading(l => l - 1)
+      }
+    )
+  }, [router.query.id])
 
-  return {
-    props: {id, event}
-  }
-}
-
-export default function EventPage({id, event}) {
   return (
     <>
       <Head>
         <title>Nostr Event {id}</title>
       </Head>
-      <Event id={id} event={event} />
+      {event ? (
+        <Event id={id} event={event} />
+      ) : (
+        <div className="nes-container">
+          {loading === 0 ? (
+            <>
+              <p>Event {id} wasn't found.</p>
+              <p>
+                Try using a <code>nevent</code> identifier with relay hints.
+              </p>
+            </>
+          ) : (
+            <p>Loading event {router.query.id}...</p>
+          )}
+        </div>
+      )}
     </>
   )
 }

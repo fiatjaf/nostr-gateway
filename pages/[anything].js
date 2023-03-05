@@ -1,11 +1,16 @@
+import Head from 'next/head'
+import {useRouter} from 'next/router'
 import {nip19} from 'nostr-tools'
 
-export async function getServerSideProps(context) {
+export default function AnyPage() {
+  const router = useRouter()
+  console.log('query', router.query)
+  let {anything} = router.query
   let destination
   let relays = []
 
   try {
-    let {type, data} = nip19.decode(context.params.anything)
+    let {type, data} = nip19.decode(anything)
 
     switch (type) {
       case 'nsec':
@@ -28,24 +33,20 @@ export async function getServerSideProps(context) {
         break
     }
   } catch (_) {
-    if (context.params.anything.toLowerCase().match(/[a-f0-9]{64}/)) {
-      let id = context.params.anything
-      destination = `/e/${id}`
+    if (anything.match(/[a-f0-9]{64}/)) {
+      destination = `/e/${anything}`
     }
   }
+
   if (destination) {
     if (relays.length > 0) destination += '?relays=' + relays.join(',')
 
-    return {
-      redirect: {destination, permanent: false}
-    }
-  } else {
-    return {
-      notFound: true
-    }
+    return (
+      <Head>
+        <meta httpEquiv="Refresh" content={`0; url='${destination}'`} />
+      </Head>
+    )
   }
-}
 
-export default function AnyPage() {
-  return null
+  return 'not found'
 }

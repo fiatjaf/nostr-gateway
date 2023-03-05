@@ -13,16 +13,6 @@ export default function Event({id, event}) {
   const [signatureOk, setSignatureOk] = useState(null)
   const sid = id.slice(0, 4)
 
-  if (!event)
-    return (
-      <div className="nes-container">
-        <p>Event {id} wasn&apos;t found in any of the default relays.</p>
-        <p>
-          Try using a <code>nevent</code> identifier with relay hints.
-        </p>
-      </div>
-    )
-
   let imageMatch = event.content.match(/https:\/\/[^ ]*\.(gif|jpe?g|png|webp)/)
   let image = imageMatch ? imageMatch[0] : null
   let videoMatch = event.content.match(/https:\/\/[^ ]*\.(mp4|webm)/)

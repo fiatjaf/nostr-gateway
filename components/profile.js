@@ -1,47 +1,21 @@
-import {useState, useEffect, useRef} from 'react'
-import {nip19, utils} from 'nostr-tools'
+import {useState, useEffect} from 'react'
+import {nip19} from 'nostr-tools'
 
 import Event from './event'
-import {fallbackRelays} from '../utils/nostr'
+import {getProfileNotes, getProfileMetadataEvents} from '../utils/get-event'
 
 export default function Profile({pubkey, relays}) {
-  const ids = useRef({})
-  const [events, setEvents] = useState([])
+  const [loading, setLoading] = useState(2)
+  const [notes, setNotes] = useState([])
   const [metadataEvents, setMetadataEvents] = useState([])
   useEffect(() => {
-    ids.current = {}
-    setEvents([])
-
-    import('nostr-tools').then(({relayInit}) => {
-      const relays = Array.from(new Set([...fallbackRelays, ...(relays || [])]))
-
-      relays.forEach(async url => {
-        const relay = relayInit(url, id => id in ids.current)
-
-        await relay.connect()
-
-        let sub = relay.sub(
-          [
-            {authors: [pubkey], kinds: [0], limit: 15},
-            {authors: [pubkey], kinds: [1, 2, 3, 4, 5, 17, 18, 30], limit: 15}
-          ],
-          {skipVerification: true}
-        )
-
-        sub.on('event', event => {
-          ids.current[event.id] = null
-
-          if (event.kind === 0 || event.kind === 2) {
-            setMetadataEvents(events =>
-              utils.insertEventIntoDescendingList(events, event)
-            )
-          } else {
-            setEvents(events =>
-              utils.insertEventIntoDescendingList(events, event)
-            )
-          }
-        })
-      })
+    getProfileNotes(pubkey, relays).then(events => {
+      setNotes(events)
+      setLoading(loading => loading - 1)
+    })
+    getProfileMetadataEvents(pubkey, relays).then(events => {
+      setMetadataEvents(events)
+      setLoading(loading => loading - 1)
     })
   }, [pubkey])
 
@@ -49,14 +23,18 @@ export default function Profile({pubkey, relays}) {
     <>
       <h1>Events from {nip19.npubEncode(pubkey)}</h1>
 
-      {events.length === 0 ? (
+      {notes.length + metadataEvents.length === 0 ? (
         <div className="nes-container">
-          <p>No sign of {pubkey} found yet.</p>
+          {loading === 0 ? (
+            <p>No sign of {pubkey} found anywhere.</p>
+          ) : (
+            <p>Loading events from {pubkey}...</p>
+          )}
         </div>
       ) : (
         <>
           {metadataEvents.map(renderEvent)}
-          {events.map(renderEvent)}
+          {notes.map(renderEvent)}
         </>
       )}
     </>
