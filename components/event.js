@@ -9,7 +9,8 @@ import Tags from './tags'
 
 export default function Event({id, event}) {
   const [showingRaw, showRaw] = useState(false)
-  const [showingHex, showHex] = useState(false)
+  const [showingId, showId] = useState('nevent')
+  const [showingHexPubkey, showHexPubkey] = useState(false)
   const [signatureOk, setSignatureOk] = useState(null)
   const sid = id.slice(0, 4)
 
@@ -61,16 +62,18 @@ export default function Event({id, event}) {
       </Head>
 
       <div className="nes-container with-title">
-        <p className="title id">
-          <a href={`/e/${id}`}>{id}</a>
-        </p>
-
         <div className="nes-field is-inline">
-          <label htmlFor={`pubkey-${sid}`}>author</label>
+          <label htmlFor={`id-${sid}`}>id</label>
           <input
             readOnly
-            id={`pubkey-${sid}`}
-            value={showingHex ? event.pubkey : nip19.npubEncode(event.pubkey)}
+            id={`id-${sid}`}
+            value={
+              showingId === 'hex'
+                ? event.id
+                : showingId === 'nevent'
+                ? nip19.neventEncode({id: event.id})
+                : nip19.noteEncode(event.id)
+            }
             className="nes-input nes-text is-primary"
           />
           <button
@@ -78,11 +81,48 @@ export default function Event({id, event}) {
             className="nes-btn is-warning"
             onClick={e => {
               e.preventDefault()
-              showHex(!showingHex)
+              showId(
+                showingId === 'note'
+                  ? 'hex'
+                  : showingId === 'hex'
+                  ? 'nevent'
+                  : event.kind === 1
+                  ? 'note'
+                  : 'hex'
+              )
             }}
             style={{marginLeft: '1rem'}}
           >
-            {showingHex ? 'npub' : 'hex'}
+            {showingId === 'note'
+              ? 'hex'
+              : showingId === 'hex'
+              ? 'nevent'
+              : event.kind === 1
+              ? 'note'
+              : 'hex'}
+          </button>
+        </div>
+
+        <div className="nes-field is-inline">
+          <label htmlFor={`pubkey-${sid}`}>author</label>
+          <input
+            readOnly
+            id={`pubkey-${sid}`}
+            value={
+              showingHexPubkey ? event.pubkey : nip19.npubEncode(event.pubkey)
+            }
+            className="nes-input nes-text is-primary"
+          />
+          <button
+            type="button"
+            className="nes-btn is-warning"
+            onClick={e => {
+              e.preventDefault()
+              showHexPubkey(!showingHexPubkey)
+            }}
+            style={{marginLeft: '1rem'}}
+          >
+            {showingHexPubkey ? 'npub' : 'hex'}
           </button>
           <a
             href={`/p/${event.pubkey}`}
@@ -117,7 +157,7 @@ export default function Event({id, event}) {
             className="nes-input"
           />
         </div>
-        <div style={{margin: '1rem 0'}}>
+        <div className="tags-table-wrapper" style={{margin: '1rem 0'}}>
           <Tags event={event} />
         </div>
         <div style={{margin: '1rem 0'}}>

@@ -76,19 +76,24 @@ main {
   display: none;
 }
 
-.nes-field.is-inline>label {
-    flex-basis: initial !important;
-    flex-grow: initial !important;
-    margin-right: 1.5rem;
-    text-align: left !important;
+.nes-field.is-inline > label {
+  flex-basis: initial !important;
+  flex-grow: initial !important;
+  margin-right: 1.5rem;
+  width: 14% !important;
+  text-align: right;
+  text-transform: uppercase !important;
 }
 
+.tags-table-wrapper {
+  display: flex;
+  justify-content: right;
+}
 
-.nes-field.is-inline>label {
-    margin-right: 1.5rem;
-    width: 14% !important;
-    flex-basis: initial !important;
-    flex-grow: initial !important;
-    text-align: left !important;
-    text-transform: uppercase !important;
+.tags-table-wrapper > div {
+  width: calc(84%);
+}
+
+.tags-table-wrapper table {
+  min-width: 80%;
 }

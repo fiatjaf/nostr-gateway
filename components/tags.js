@@ -29,10 +29,13 @@ export default function Tags({event}) {
                     c === tag.length - 1 && c + 1 < maxCols ? maxCols - c : 1
                   }
                 >
-                  {c === 1 && (tag[0] === 'p' || tag[0] === 'e')
-                    ? <Link passHref href={'/' + tag[0] + '/' + item}>{item}</Link>
-                    : item
-                  }
+                  {c === 1 && (tag[0] === 'p' || tag[0] === 'e') ? (
+                    <Link passHref href={'/' + tag[0] + '/' + item}>
+                      {item}
+                    </Link>
+                  ) : (
+                    item
+                  )}
                 </td>
               ))}
             </tr>
