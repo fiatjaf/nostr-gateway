@@ -9,7 +9,7 @@ export async function getServerSideProps(context) {
   const relays = context.query.relays?.split(',') || []
   const metadata = await getMetadata(pubkey, relays)
 
-  if (event) {
+  if (metadata) {
     // event exists, cache forever
     context.res.setHeader('Cache-Control', 'public, s-maxage=31536000')
   } else {
