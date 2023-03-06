@@ -22,11 +22,15 @@ function MyApp({Component, pageProps}) {
             />
           </a>
         </Link>
-        <Link href="/" passHref>
-          <a>
-            <h1 style={{margin: '0 2rem 0'}}>Nostr Gateway</h1>
-          </a>
-        </Link>
+        <a
+          href={
+            typeof location !== 'undefined'
+              ? `${location.protocol}//${location.host}`
+              : '/'
+          }
+        >
+          <h1 style={{margin: '0 2rem 0'}}>Nostr Gateway</h1>
+        </a>
       </header>
       <main>
         <Component {...pageProps} />
