@@ -18,17 +18,17 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: {id, event}
+    props: {id, event, relays}
   }
 }
 
-export default function EventPage({id, event}) {
+export default function EventPage({id, event, relays}) {
   return (
     <>
       <Head>
         <title>Nostr Event {id}</title>
       </Head>
-      <Event id={id} event={event} />
+      <Event id={id} event={event} relays={relays} />
     </>
   )
 }

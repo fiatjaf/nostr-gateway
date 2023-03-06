@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import {useRouter} from 'next/router'
 import {useState} from 'react'
 import TOML from '@iarna/toml'
 import {nip19} from 'nostr-tools'
@@ -7,7 +8,8 @@ import {kindNames, fallbackRelays} from '../utils/nostr'
 import Content from './content'
 import Tags from './tags'
 
-export default function Event({id, event}) {
+export default function Event({id, event, relays = []}) {
+  const router = useRouter()
   const [showingRaw, showRaw] = useState(false)
   const [showingId, showId] = useState('nevent')
   const [showingHexPubkey, showHexPubkey] = useState(false)
@@ -17,17 +19,17 @@ export default function Event({id, event}) {
   if (!event)
     return (
       <div className="nes-container">
-        <p>Event {id} wasn&apos;t found in any of the default relays.</p>
+        <p>Event {id} wasn't found.</p>
         <p>
           Try using a <code>nevent</code> identifier with relay hints.
         </p>
       </div>
     )
 
-  let imageMatch = event.content.match(/https:\/\/[^ ]*\.(gif|jpe?g|png|webp)/)
-  let image = imageMatch ? imageMatch[0] : null
-  let videoMatch = event.content.match(/https:\/\/[^ ]*\.(mp4|webm)/)
-  let video = videoMatch ? videoMatch[0] : null
+  let imageMatch = event.content.match(/https:\/\/[^ ]*\.(gif|jpe?g|png|webp)/g)
+  let image = imageMatch && imageMatch.length === 1 ? imageMatch[0] : null
+  let videoMatch = event.content.match(/https:\/\/[^ ]*\.(mp4|webm)/g)
+  let video = videoMatch && videoMatch.length === 1 ? videoMatch[0] : null
   let metadata = null
   if (event.kind === 0) {
     try {
@@ -101,6 +103,17 @@ export default function Event({id, event}) {
               ? 'note'
               : 'hex'}
           </button>
+          {router.pathname.startsWith('/p/') && (
+            <a
+              href={`/e/${event.id}${
+                relays.length ? '?relays=' + relays.join(',') : ''
+              }`}
+              className="nes-btn is-primary"
+              style={{marginLeft: '1rem'}}
+            >
+              open
+            </a>
+          )}
         </div>
 
         <div className="nes-field is-inline">
@@ -124,13 +137,17 @@ export default function Event({id, event}) {
           >
             {showingHexPubkey ? 'npub' : 'hex'}
           </button>
-          <a
-            href={`/p/${event.pubkey}`}
-            className="nes-btn is-primary"
-            style={{marginLeft: '1rem'}}
-          >
-            profile
-          </a>
+          {router.pathname.startsWith('/e/') && (
+            <a
+              href={`/p/${event.pubkey}${
+                relays.length ? '?relays=' + relays.join(',') : ''
+              }`}
+              className="nes-btn is-primary"
+              style={{marginLeft: '1rem'}}
+            >
+              open
+            </a>
+          )}
         </div>
         <div className="nes-field is-inline">
           <label htmlFor={`kind-${sid}`}>kind</label>
