@@ -19,7 +19,7 @@ export default function Event({id, event, relays = []}) {
   if (!event)
     return (
       <div className="nes-container">
-        <p>Event {id} wasn't found.</p>
+        <p>Event {id} wasn&apos;t found.</p>
         <p>
           Try using a <code>nevent</code> identifier with relay hints.
         </p>
