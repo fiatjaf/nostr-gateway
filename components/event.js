@@ -61,6 +61,7 @@ export default function Event({id, event, relays = []}) {
           <meta property="og:description" content={event.content} />
         )}
         {metadata && <meta property="og:description" content={metadata} />}
+        <meta property="twitter:card" content="summary" />
       </Head>
 
       <div className="nes-container with-title">

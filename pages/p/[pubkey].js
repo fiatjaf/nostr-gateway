@@ -46,6 +46,7 @@ export default function ProfilePage({pubkey, metadata, relays}) {
         {metadata.about && (
           <meta property="og:description" content={metadata.about} />
         )}
+        <meta property="twitter:card" content="summary" />
       </Head>
 
       <Profile pubkey={pubkey} relays={relays} />
