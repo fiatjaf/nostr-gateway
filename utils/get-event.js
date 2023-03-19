@@ -1,4 +1,6 @@
+import 'websocket-polyfill'
 import {SimplePool} from 'nostr-tools'
+
 import {fallbackRelays} from './nostr'
 
 let pool = new SimplePool({getTimeout: 5600})

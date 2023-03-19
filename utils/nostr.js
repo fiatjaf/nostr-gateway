@@ -26,8 +26,8 @@ export const kindNames = {
 }
 
 export const fallbackRelays = [
+  'wss://relay.damus.io',
   'wss://nostr-pub.wellorder.net',
-  'wss://nostr.zebedee.cloud',
   'wss://offchain.pub',
   'wss://nostr.fmt.wiz.biz',
   'wss://eden.nostr.land',
@@ -41,7 +41,8 @@ export const fallbackRelays = [
   'wss://nos.lol',
   'wss://relay.mostr.pub',
   'wss://no.str.cr',
-  'wss://brb.io'
+  'wss://brb.io',
+  'wss://nostr.zebedee.cloud'
 ]
 
 export function nip05toURL(identifier) {

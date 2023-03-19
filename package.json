@@ -11,9 +11,10 @@
     "bech32": "^2.0.0",
     "nes.css": "^2.3.0",
     "next": "12.1.4",
-    "nostr-tools": "^1.7.4",
+    "nostr-tools": "1.7.5",
     "react": "18.0.0",
     "react-dom": "18.0.0",
+    "websocket-polyfill": "^0.0.3",
     "ws": "^8.8.0"
   },
   "devDependencies": {
