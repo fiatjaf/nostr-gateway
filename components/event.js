@@ -8,7 +8,7 @@ import {kindNames, fallbackRelays} from '../utils/nostr'
 import Content from './content'
 import Tags from './tags'
 
-export default function Event({id, event, relays = []}) {
+export default function Event({id, event, author, relays = []}) {
   const router = useRouter()
   const [showingRaw, showRaw] = useState(false)
   const [showingId, showId] = useState('nevent')
@@ -39,6 +39,17 @@ export default function Event({id, event, relays = []}) {
     }
   }
   let siteName = nip19.npubEncode(event.pubkey)
+  if (author) {
+    try {
+      let metadata = JSON.parse(author.content)
+      if (metadata.name) {
+        siteName = `${metadata.name} (${siteName})`
+      }
+    } catch (err) {
+      /***/
+    }
+  }
+
   let title =
     event.kind >= 30000 && event.kind < 40000
       ? `${kindNames[event.kind]}: ${

@@ -1,12 +1,13 @@
 import Head from 'next/head'
 
-import {getEvent} from '../../utils/get-event'
+import {getEvent, getMetadata} from '../../utils/get-event'
 import Event from '../../components/event'
 
 export async function getServerSideProps(context) {
   const id = context.params.id
   const relays = context.query.relays?.split(',') || []
   const event = await getEvent(id, relays)
+  const author = event.id ? await getMetadata(event.pubkey, relays) : null
 
   if (event) {
     // event exists, cache forever
@@ -18,17 +19,17 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: {id, event, relays}
+    props: {id, event, author, relays}
   }
 }
 
-export default function EventPage({id, event, relays}) {
+export default function EventPage({id, event, author, relays}) {
   return (
     <>
       <Head>
         <title>Nostr Event {id}</title>
       </Head>
-      <Event id={id} event={event} relays={relays} />
+      <Event id={id} event={event} author={author} relays={relays} />
     </>
   )
 }
