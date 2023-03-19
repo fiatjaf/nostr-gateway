@@ -27,9 +27,10 @@ export default function Event({id, event, author, relays = []}) {
     )
 
   let imageMatch = event.content.match(/https:\/\/[^ ]*\.(gif|jpe?g|png|webp)/g)
-  let image = imageMatch && imageMatch.length === 1 ? imageMatch[0] : null
+  let image = imageMatch ? imageMatch[0] : null
   let videoMatch = event.content.match(/https:\/\/[^ ]*\.(mp4|webm)/g)
-  let video = videoMatch && videoMatch.length === 1 ? videoMatch[0] : null
+  let video = videoMatch ? videoMatch[0] : null
+  let videoType = video ? (video.endsWith('mp4') ? 'mp4' : 'webm') : null
   let metadata = null
   if (event.kind === 0) {
     try {
@@ -68,7 +69,13 @@ export default function Event({id, event, author, relays = []}) {
         <meta property="og:site_name" content={siteName} />
         <meta property="og:title" content={title} />
         {image && <meta property="og:image" content={image} />}
-        {video && <meta property="og:video" content={video} />}
+        {video && (
+          <>
+            <meta property="og:video" content={video} />
+            <meta property="og:video:secure_url" content={video} />
+            <meta property="og:video:type" content={`video/${videoType}`} />
+          </>
+        )}
         {(event.kind === 1 || event.kind === 30023) && (
           <meta property="og:description" content={event.content} />
         )}
