@@ -3,7 +3,7 @@ import {useState} from 'react'
 import {nip05toURL} from '../utils/nostr'
 
 export default function Content({event}) {
-   const [showingLongContent, showLongContent] = useState(false)
+  const [showingLongContent, showLongContent] = useState(false)
 
   switch (event.kind) {
     case 0: {
@@ -28,6 +28,7 @@ export default function Content({event}) {
               </div>
               <div style={{marginLeft: '2rem'}}>
                 <h2>{metadata.name}</h2>
+                {metadata.display_name && <p>{metadata.display_name}</p>}
                 <p>{metadata.about}</p>
                 {metadata.nip05 ? (
                   <a
@@ -40,6 +41,8 @@ export default function Content({event}) {
                     <span className="is-warning">{metadata.nip05}</span>
                   </a>
                 ) : null}
+                {metadata.lud06 && <p>{metadata.lud06}</p>}
+                {metadata.lud16 && <p>{metadata.lud16}</p>}
               </div>
             </div>
           </div>
@@ -117,6 +120,8 @@ export default function Content({event}) {
         </>
       )
     }
+    case 10002:
+      return null
   }
 
   return (
