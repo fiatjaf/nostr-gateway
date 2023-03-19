@@ -55,11 +55,12 @@ export default function Event({id, event, author, relays = []}) {
       ? `${kindNames[event.kind]}: ${
           event.tags.find(([t, v]) => t === 't')?.[1] || '~'
         }`
-      : (event.kind >= 10000 && event.kind < 20000) ||
-        event.kind === 0 ||
-        event.kind === 3
+      : event.kind in kindNames
       ? kindNames[event.kind]
-      : nip19.neventEncode({id: event.id})
+      : `kind:${event.kind} event`
+
+  const date = new Date(event.created_at * 1000).toISOString()
+  title += ` at ${date.slice(0, 10)} ${date.slice(11, 16)} UTC`
 
   return (
     <>
