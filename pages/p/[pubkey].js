@@ -31,7 +31,7 @@ export default function ProfilePage({pubkey, metadata, relays}) {
   }
 
   let title = metadata.display_name
-    ? `${metadata.displayName} (${metadata.name})`
+    ? `${metadata.display_name} (${metadata.name})`
     : metadata.name
 
   return (
