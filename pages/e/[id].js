@@ -90,23 +90,48 @@ export default function EventPage({
     const date = new Date(event.created_at * 1000).toISOString()
     title += ` at ${date.slice(0, 10)} ${date.slice(11, 16)} UTC`
 
+    let subject = event.tags.find(
+      ([t]) => t === 'subject' || t === 'title'
+    )?.[1]
+
+    let useTextImage =
+      (event.kind === 1 || event.kind === 30023) &&
+      !image &&
+      !video &&
+      event.content.length > 120
+
     return (
       <Head>
         <meta property="og:site_name" content={siteName} />
         <meta property="og:title" content={title} />
-        {image && <meta property="og:image" content={image} />}
-        {video && (
+        {useTextImage ? (
           <>
-            <meta property="og:video" content={video} />
-            <meta property="og:video:secure_url" content={video} />
-            <meta property="og:video:type" content={`video/${videoType}`} />
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta
+              property="og:image"
+              content={`/api/noteimage?text=${encodeURIComponent(
+                event.content.slice(0, 800)
+              )}`}
+            />
+            {subject && <meta property="og:description" content={subject} />}
+          </>
+        ) : (
+          <>
+            <meta property="twitter:card" content="summary" />
+            {image && <meta property="og:image" content={image} />}
+            {video && (
+              <>
+                <meta property="og:video" content={video} />
+                <meta property="og:video:secure_url" content={video} />
+                <meta property="og:video:type" content={`video/${videoType}`} />
+              </>
+            )}
+            {(event.kind === 1 || event.kind === 30023) && (
+              <meta property="og:description" content={event.content} />
+            )}
+            {metadata && <meta property="og:description" content={metadata} />}
           </>
         )}
-        {(event.kind === 1 || event.kind === 30023) && (
-          <meta property="og:description" content={event.content} />
-        )}
-        {metadata && <meta property="og:description" content={metadata} />}
-        <meta property="twitter:card" content="summary" />
       </Head>
     )
   }
