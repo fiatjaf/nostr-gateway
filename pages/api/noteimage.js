@@ -2,8 +2,8 @@ import {createCanvas} from 'canvas'
 
 export default function handler(req, res) {
   const {text, previewStyle} = req.query
-  res.setHeader('content-type', 'image/png')
-  const image = textToImage(text, previewStyle).toBuffer('image/png')
+  res.setHeader('content-type', 'image/jpeg')
+  const image = textToImage(text, previewStyle).toBuffer('image/jpeg')
   res.status(200).send(image)
 }
 
