@@ -6,9 +6,14 @@ import {fallbackRelays} from './nostr'
 let pool = new SimplePool({getTimeout: 5600})
 
 export async function getEvent(id, relays) {
-  return pool.get(Array.from(new Set([...(relays || []), ...fallbackRelays])), {
-    ids: [id]
-  })
+  let event = await pool.get(
+    Array.from(new Set([...(relays || []), ...fallbackRelays])),
+    {
+      ids: [id]
+    }
+  )
+  event.seenOn = pool.seenOn(event.id)
+  return event
 }
 
 export async function getMetadata(pubkey, relays) {

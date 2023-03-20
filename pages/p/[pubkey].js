@@ -2,14 +2,14 @@ import Head from 'next/head'
 import {nip19} from 'nostr-tools'
 
 import {getMetadata} from '../../utils/get-event'
-import {shouldRenderLinkPreview} from '../../utils/preview'
+import {linkPreviewStyle} from '../../utils/preview'
 import Profile from '../../components/profile'
 
 export async function getServerSideProps(context) {
   const pubkey = context.params.pubkey
   const relays = context.query.relays?.split(',') || []
-  const renderLinkPreview = shouldRenderLinkPreview(context)
-  const metadata = renderLinkPreview ? await getMetadata(pubkey, relays) : null
+  const previewStyle = linkPreviewStyle(context)
+  const metadata = previewStyle ? await getMetadata(pubkey, relays) : null
 
   if (metadata) {
     // event exists, cache forever
@@ -21,20 +21,15 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: {pubkey, metadata, relays, renderLinkPreview}
+    props: {pubkey, metadata, relays, previewStyle}
   }
 }
 
-export default function ProfilePage({
-  pubkey,
-  metadata,
-  relays,
-  renderLinkPreview
-}) {
+export default function ProfilePage({pubkey, metadata, relays, previewStyle}) {
   return (
     <>
-      {renderLinkPreview && linkPreview()}
-      {!renderLinkPreview && <Profile pubkey={pubkey} relays={relays} />}
+      {previewStyle && linkPreview()}
+      {!previewStyle && <Profile pubkey={pubkey} relays={relays} />}
     </>
   )
 

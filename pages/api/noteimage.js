@@ -1,21 +1,33 @@
 import {createCanvas} from 'canvas'
 
 export default function handler(req, res) {
-  const {text} = req.query
+  const {text, previewStyle} = req.query
   res.setHeader('content-type', 'image/png')
-  const image = textToImage(text).toBuffer('image/png')
+  const image = textToImage(text, previewStyle).toBuffer('image/png')
   res.status(200).send(image)
 }
 
-function textToImage(text) {
-  const canvas = createCanvas(480, 300)
-  const ctx = canvas.getContext('2d')
-  ctx.font = '16px monospace'
+function textToImage(text, previewStyle) {
+  if (text.length > 1000) {
+    text = text.slice(0, 999) + '…'
+  }
 
   const x = 10
   const y = 10
   const lineHeight = 17
-  const charsPerLine = 44
+  const width = 420
+  const charsPerLine = 39
+  const maxHeight = previewStyle === 'twitter' ? width / 1.91 : width * 1.5
+  const height = Math.min(
+    (text.length / (charsPerLine - 12) + 2) * 17,
+    maxHeight
+  )
+
+  const canvas = createCanvas(width, height)
+  const ctx = canvas.getContext('2d')
+
+  // text
+  ctx.font = '16px monospace'
 
   let currentLineNumber = 1
   let currentLineText = ''
@@ -55,6 +67,11 @@ function textToImage(text) {
     currentLineText = ''
     currentLineChars = 0
   }
+
+  // background
+  ctx.globalCompositeOperation = 'destination-over'
+  ctx.fillStyle = '#dec9f8'
+  ctx.fillRect(0, 0, width, height)
 
   return canvas
 }
