@@ -15,8 +15,8 @@ function textToImage(text, previewStyle) {
   const x = 10
   const y = 10
   const lineHeight = 17
-  const width = 420
-  const charsPerLine = 39
+  const width = 410
+  const charsPerLine = 52
   const maxHeight = previewStyle === 'twitter' ? width / 1.91 : width * 1.5
   const height = Math.min(
     (text.length / (charsPerLine - 12) + 2) * 17,
@@ -27,7 +27,7 @@ function textToImage(text, previewStyle) {
   const ctx = canvas.getContext('2d')
 
   // text
-  ctx.font = '16px monospace'
+  ctx.font = '16px serif'
 
   let currentLineNumber = 1
   let currentLineText = ''
