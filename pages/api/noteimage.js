@@ -1,5 +1,7 @@
 import {createCanvas} from 'canvas'
 
+import {wantsShortPreviewImage} from '../../utils/preview'
+
 export default function handler(req, res) {
   const {text, previewStyle} = req.query
   res.setHeader('content-type', 'image/png')
@@ -16,7 +18,9 @@ function textToImage(text, previewStyle) {
   const y = 10
   const lineHeight = 17
   const width = 410
-  const maxHeight = previewStyle === 'twitter' ? width / 1.91 : width * 1.5
+  const maxHeight = wantsShortPreviewImage(previewStyle)
+    ? width / 1.91
+    : width * 1.5
   const lines = computeLines(text, width - x * 2)
   const height = Math.min(lines.length * 17 + x * 3, maxHeight)
   const canvas = createCanvas(width, height)
