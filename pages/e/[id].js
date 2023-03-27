@@ -13,7 +13,7 @@ export async function getServerSideProps(context) {
   const event = await getEvent(id, relays)
   const previewStyle = linkPreviewStyle(context)
   const author =
-    previewStyle && event.id ? await getMetadata(event.pubkey, relays) : null
+    previewStyle && event?.id ? await getMetadata(event.pubkey, relays) : null
   const hostname = `${context.req.headers['x-forwarded-proto'] || 'https'}://${
     context.req.headers['x-forwarded-host'] || context.req.headers['host']
   }`
