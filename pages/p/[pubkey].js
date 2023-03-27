@@ -29,7 +29,9 @@ export default function ProfilePage({pubkey, metadata, relays, previewStyle}) {
   return (
     <>
       {previewStyle && linkPreview()}
-      {!previewStyle && <Profile pubkey={pubkey} relays={relays} />}
+      {!previewStyle && (
+        <Profile metadata={metadata} pubkey={pubkey} relays={relays} />
+      )}
     </>
   )
 

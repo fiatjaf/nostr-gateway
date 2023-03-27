@@ -4,10 +4,10 @@ import {nip19} from 'nostr-tools'
 import Event from './event'
 import {getProfileNotes, getProfileMetadataEvents} from '../utils/get-event'
 
-export default function Profile({pubkey, relays}) {
+export default function Profile({metadata, pubkey, relays}) {
   const [loading, setLoading] = useState(2)
   const [notes, setNotes] = useState([])
-  const [metadataEvents, setMetadataEvents] = useState([])
+  const [metadataEvents, setMetadataEvents] = useState([metadata])
 
   useEffect(() => {
     getProfileNotes(pubkey, relays).then(events => {

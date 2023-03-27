@@ -33,6 +33,12 @@ export async function getProfileNotes(pubkey, relays) {
 export async function getProfileMetadataEvents(pubkey, relays) {
   return pool.list(
     Array.from(new Set([...(relays || []), ...fallbackRelays])),
-    [{authors: [pubkey], kinds: [0, 2, 10002, 30008], limit: 15}]
+    [
+      {
+        authors: [pubkey],
+        kinds: [/* 0 is already fetched at this point */ 2, 10002, 30008],
+        limit: 15
+      }
+    ]
   )
 }
