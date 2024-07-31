@@ -7,7 +7,7 @@ The Nostr Gateway is an effort to pull Nostr data from relays around the nostrsp
 ## Usage
 
 The Nostr Gateway provides a simple web interface for viewing Nostr data from relays around the nostrsphere.
-To use the interface, simply visit https://www.nostr.guru/ or https://nostr-gateway.vercel.app/ in your web browser.
+To use the interface, simply visit https://nostrexplorer.com in your web browser.
 
 ## Developing with Next.js
 
